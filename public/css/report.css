@@ -212,7 +212,7 @@ body.print-a4 {
   font-weight:700;
 }
 .detail-list{
-  margin-top:2.0mm; /* 3mm上げる */
+  margin-top:2.0mm; /* 上方向の余白を2mm */
   background:#fff;
   border-radius:6px;
   padding:2.4mm 3mm;
@@ -302,7 +302,7 @@ body.print-a4 {
 .detail-table__headerDivider{
   border:none;
   border-top:2px solid #F0F4FA;
-  margin:1.5mm 0 0; /* 0.5mm上げる */
+  margin:1.5mm 0 0; /* 上方向の余白を1.5mm */
   width:100%;
   display:block;
   align-self:stretch;
@@ -352,7 +352,7 @@ body.print-a4 {
 .detail-table__recentIcon{
   width:20px;
   display:block;
-  transform:translateX(-0.40mm) translateY(0.5mm); /* さらに0.05mm右へ調整 */
+  transform:translateX(-0.40mm) translateY(0.5mm); /* 左へ0.40mm、下へ0.5mm */
 
 }
 .detail-table__date{
@@ -377,7 +377,7 @@ body.print-a4 {
 .detail-table__dow{
   font-size:12px;
   font-weight: 500;
-  margin-left:-0.5mm; /* 少し右に寄せる */
+  margin-left:-0.5mm; /* 少し左に寄せる */
   margin-bottom:-0.5mm;
 }
 .detail-table__dow--sat{
@@ -459,7 +459,7 @@ body.print-a4 {
   height:26px; 
   display:block;
   transform-origin:center;
-  transform:scale(1) translateY(0.0mm); /* 5mm下げる */
+  transform:scale(1) translateY(0.0mm); /* 上下移動なし */
 }
 
 .detail-tag__label{
@@ -919,7 +919,7 @@ body.print-a4 {
   padding:0;
   display:flex;
   flex-direction:column;
-  gap:0.2mm;
+  /* gap:0.2mm; */
   box-shadow:none;
 }
 .gaiyou-scene header h2{
@@ -929,7 +929,7 @@ body.print-a4 {
   font-weight:700;
 }
 .gaiyou-scene header p{
-  margin:2mm 0 0;
+  margin:0.5mm 0 0;
   color:#1E1E1E;
   font-size:10px;
   font-weight:500;
@@ -938,20 +938,20 @@ body.print-a4 {
 .gaiyou-scene__meta{
   display:flex;
   flex-direction:column;
-  gap:0.5mm;
+  /* gap:0.5mm; */
 }
 .gaiyou-scene__metaItem{
   display:flex;
   gap:2.0mm;
   align-items:baseline;
   flex-wrap:wrap;
-  margin-bottom:0.2mm;
+  /* margin-bottom:0.2mm; */
 }
 .gaiyou-scene__meta dt{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0.6mm 1.4mm;
+  /* padding:0.6mm 1.4mm; */
   min-width:16mm;
   border-radius:50px;
   background:var(--meta-bg);
@@ -995,7 +995,7 @@ body.print-a4 {
   overflow:hidden;
   margin-left:1.0mm; /* bring media closer to hazard label block */
   width:380px;
-  height:170px;
+  height:150px;
 }
 .gaiyou-mediaFrame--map{
   background-image:none;
@@ -1004,7 +1004,7 @@ body.print-a4 {
   overflow:hidden;
   margin-left:-8mm; /* bring media closer to hazard label block */
   width:265px;
-  height:170px;
+  height:150px;
 }
 .gaiyou-mediaFrame__link{
   display:block;
@@ -1062,7 +1062,7 @@ body.print-a4 {
 }
 .gaiyou-mediaFrame__fallback--show{display:flex;}
 .gaiyou-legend{
-  margin-top:1.25mm; /* 2mm下げる */
+  margin-top:0.5mm; /* 上方向の余白を0.5mm */
   border:1px solid #e4e8f1;
   border-radius:5px;
   background:#fff;
@@ -1078,8 +1078,8 @@ body.print-a4 {
 }
 .gaiyou-legend > div{
   padding-left:13.7mm;       /* ほんの少しだけ詰める */
-  padding-top:0.5mm;
-  padding-bottom:0.5mm;
+  /* padding-top:0.5mm;
+  padding-bottom:0.5mm; */
   text-indent:-13.7mm; /* 2行目以降をラベル長ぶんインデント */
 }
 .gaiyou-legend > *{
