@@ -4,6 +4,8 @@
  * 共通レイアウト／共有スタイル
  * =================================== */
 
+
+
 /* ===== A4・印刷設定 ===== */
 @page {
   size: A4;
@@ -11,6 +13,7 @@
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
+/* 共通: 印刷ページ（背景:薄青 / 文字色:濃色 / 外側余白 / 文字サイズ） */
 body.print-a4 {
   margin: 0;
   -webkit-print-color-adjust: exact;
@@ -18,7 +21,7 @@ body.print-a4 {
   font-family: "Noto Sans JP","Yu Gothic","Meiryo",system-ui,sans-serif;
   color: #0b1420;
   letter-spacing:0.01em;
-  background:#F0F4FA; /* フッター付近も含めて背景色を適用 */
+  background:#F0F4FA;
 }
 
 /* カラートークン（近似） */
@@ -33,14 +36,70 @@ body.print-a4 {
   --meta-bg:#F5F5F5;
   /* 固定メタ幅（右側の事業所/氏名エリア） */
   --meta-width: 32ch;
-  /* ヒーロー用グラデーションカラー */
+  /* ヘッダー帯用グラデーションカラー */
   --hero-grad-left: #0D47A0;
   --hero-grad-right: #082B60;
 }
 
+/* ===== レイアウト ===== */
+/* A4 1枚のシート */
+/* 共通: レポート用紙（背景:薄青 / 配置:grid; gap:0.6mm / 内側余白 / 外側余白） */
+.sheet{
+  display:grid; gap:0.6mm;
+  align-content: start;
+  page-break-after: always;
+  width:100%; 
+  min-height:100vh;
+  margin:0;
+  padding:0; 
+  background:#F0F4FA; 
+}
+
+/* 共通: レポート用紙【改ページ】 */
+.sheet--break {
+  page-break-before: always;
+}
+
+/* 共通: レポート本文（背景:薄青 / 内側余白） */
+.report-bodyWrap{
+  background:#F0F4FA;
+  padding:2mm 3mm 3mm;
+  min-height:auto; 
+}
+
+/* ===== ヘッダー（青帯） ===== */
+/* 共通: レポート上部ヘッダーのメタ情報 */
+.meta{ display:flex; gap:1ch; margin:0; justify-content: flex-end; align-items:flex-start; flex-wrap: nowrap; }
+/* 事業所名が長い場合の縮小 */
+/* ドライバー名が長い場合の縮小 */
+/* 事業所名の改行 */
+
+
+/* ===== フッター ===== */
+/* 共通: フッター（文字色:指定 / 文字サイズ） */
+.footer{
+  text-align:right;
+  color:var(--ink-400);
+  font-size:9pt;
+}
+
+@media screen{
+  body.print-a4{ background:#fff; }
+  .sheet{
+    width:210mm;
+    min-height:297mm;
+    margin:0 auto;
+    padding:0;
+    background:#fff;
+    box-shadow:none;
+  }
+}
 /* ===================================
- * 新概要ページ（モック）
+ * 概要ページ
  * =================================== */
+
+
+/* 概要ページ: 今月の安全レポート見出し（背景:青 / 文字色:白 / 配置:flex / 内側余白 / 間隔） */
 .gaiyou-hero{
   background: linear-gradient(90.06deg,#0D47A0 30%,#082B60 100%);
   color:#fff;
@@ -53,6 +112,7 @@ body.print-a4 {
   gap:0.8mm;
   box-shadow:0 2px 5px rgba(7,35,89,0.12);
 }
+/* 概要ページ: 今月の安全レポート見出しの見出し（配置:flex / 間隔） */
 .gaiyou-hero__head{
   display:flex;
   justify-content:space-between;
@@ -60,6 +120,7 @@ body.print-a4 {
   gap:5mm;
   transform:translateX(3mm);
 }
+/* 概要ページ: 今月の安全レポート見出しの主文（配置:flex / 内側余白 / 間隔） */
 .gaiyou-hero__primary{
   display:flex;
   align-items:flex-end;
@@ -67,15 +128,18 @@ body.print-a4 {
   letter-spacing:.06em;
   padding-left:1ch;
 }
+/* 概要ページ: 今月の安全レポート見出しの区切り（文字サイズ） */
 .gaiyou-hero__separator{
   opacity:.8;
   font-size:22px;
   font-weight:700;
 }
+/* 概要ページ: 今月の安全レポート見出しのテキスト（文字サイズ） */
 .gaiyou-hero__text{
   font-size:18px;
   font-weight:700;
 }
+/* 概要ページ: 今月の安全レポート見出しの会社/事業所（内側余白 / 文字サイズ） */
 .gaiyou-hero__org{
   font-size:12px;
   font-weight:500;
@@ -84,14 +148,17 @@ body.print-a4 {
   padding-left:0;
   transform:translateX(-8mm);
 }
+/* 概要ページ: 今月の安全レポート見出しの会社/事業所名（文字サイズ） */
 .gaiyou-hero__orgName{
   font-size:inherit;
   font-weight:inherit;
   letter-spacing:inherit;
 }
+/* 概要ページ: 今月の安全レポート見出しの会社/事業所名【長文】（文字サイズ） */
 .gaiyou-hero__orgName--long{
   font-size:75%;
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間（背景:白 / 文字色:濃色 / 配置:flex / 内側余白 / 間隔） */
 .gaiyou-metaRow{
   display:flex;
   gap:1.6mm;
@@ -99,9 +166,10 @@ body.print-a4 {
   padding-left:calc(1.5ch + 3mm);
   padding-right:3mm;
   color:#1E1E1E;
-  min-height:9mm; /* Figma 200px on 4093px height ≒ 14.5mm on A4 */
-  background:#fff; /* 背景色がヘッダー文言にかぶらないよう白で固定 */
+  min-height:9mm; 
+  background:#fff; 
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の項目（配置:flex / 間隔 / 文字サイズ） */
 .gaiyou-metaRow__item{
   display:flex;
   align-items:center;
@@ -110,14 +178,17 @@ body.print-a4 {
   font-size:12px;
   font-weight:500;
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の項目（外側余白） */
 .gaiyou-metaRow__item:nth-child(2){
   margin-left:0;
   transform:translateX(-10ch);
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の項目（外側余白） */
 .gaiyou-metaRow__item:nth-child(3){
   margin-left:0;
   transform:translateX(-5ch);
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間のラベル（背景:指定 / 文字色:濃色 / 配置:inline-flex / 内側余白 / 文字サイズ） */
 .gaiyou-metaRow__label{
   display:inline-flex;
   align-items:center;
@@ -131,443 +202,69 @@ body.print-a4 {
   letter-spacing:0.01em;
   color:#1E1E1E;
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の値（文字色:濃色 / 文字サイズ） */
 .gaiyou-metaRow__value{
   font-weight:500;
   color:#1E1E1E;
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の値【長文】（文字サイズ） */
 .gaiyou-metaRow__value--long{
   font-size:66.6667%;
 }
+/* 概要ページ: ドライバー/稼働日数/走行時間の項目 */
 .gaiyou-metaRow__item:nth-child(2) .gaiyou-metaRow__value{
   white-space:nowrap; /* 稼働日数の値を折り返さない */
 }
 
-/* ===============================
- * detail page (video list)
- * =============================== */
-.detail-risk{
-  margin-top:2mm; /* 1mm戻して上げる */
-  display:flex;
-  flex-direction:column;
+
+/* ===== KPI 行 ===== */
+
+
+/* ===== セクション（テーブル） ===== */
+
+
+/* 列幅と配置 */
+
+/* セル内コンテンツのスタイル */
+/* 概要ページ: まとめテーブルのNo（背景:白 / 文字色:指定 / 配置:inline-grid / 内側余白 / 枠線 / 文字サイズ） */
+.no{
+  display:inline-grid;
+  place-items:center;
+  min-width:7mm;
+  height:7mm;
+  padding:0 1.2mm;
+  background:#fff;
+  border:1px solid #2a5db6;
+  border-radius:1mm;
+  font-weight:900;
+  color:#2a5db6;
+}
+/* 概要ページ: 違反率（配置:inline-flex / 間隔 / 文字サイズ） */
+.rate{
+  display:inline-flex;
+  align-items:baseline;
   gap:0.8mm;
-  background:#fff;
-  border:1px solid #e4e8f1;
-  border-radius:6px;
-  padding:4.5mm 3mm; /* 上下を3mm拡大 */
-  box-shadow:none;
-  width:calc(100% - 8mm);
-  margin-left:auto;
-  margin-right:auto;
-}
-.detail-risk > *{
-  margin-left:0;
-  margin-right:0;
-}
-.detail-risk__box{
-  padding-left:2.5mm; /* コンテンツのみ右へ寄せ、枠・線は動かさない */
-}
-.detail-risk__box{
-  display:flex;
-  flex-direction:column;
-  gap:1mm;
-  width:100%;
-}
-.detail-risk__row{
-  display:flex;
-  align-items:baseline;
-  gap:2.4mm;
-  flex-wrap:wrap;
-}
-.detail-risk__row--inline{
-  align-items:center;
-  gap:2.4mm;
-  flex-wrap:wrap;
-}
-.detail-risk__lead{
-  margin:0;
-  color:var(--blue-700);
-  font-size:12px;
-  font-weight:700;
-}
-.detail-risk__title{
-  font-size:18px;
-  font-weight:700;
-  color:var(--ink-900);
-  padding-left:1.5ch; /* 1文字分右にずらす */
-  letter-spacing:0.1em; /* わずかに文字間を広げる */
-}
-.detail-risk__statLabel{
-  font-size:12px;
-  color:var(--blue-700);
-  font-weight:700;
-  display:inline-flex;
-  align-items:center;
-}
-.detail-risk__statValue{
-  font-size:22px;
-  font-weight:700;
-}
-.detail-risk__statUnit{
-  font-size:12px;
-  font-weight:700;
-}
-.detail-list{
-  margin-top:2.0mm; /* 上方向の余白を2mm */
-  background:#fff;
-  border-radius:6px;
-  padding:2.4mm 3mm;
-  border:1px solid #e4e8f1;
-  box-shadow:none;
-  display:flex;
-  flex-direction:column;
-  gap:1.6mm;
-  width:calc(100% - 8mm);
-  margin-left:auto;
-  margin-right:auto;
-}
-.detail-list__header{
-  padding-left:2.5mm;
-}
-.detail-table__caption{
-  padding-left:4.5mm; /* 元2mm+2.5mmぶん右寄せ */
-}
-.detail-list > *{
-  margin-left:0;
-  margin-right:0;
-}
-.detail-list__header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-left:2.5mm; /* 見出しを右に寄せる */
-}
-.detail-list__title{
-  font-size:12px;
-  font-weight:700;
-  color: var(--blue-700);
-}
-.detail-table__caption{
-  font-size:12px;
-  font-weight:700;
-  color:var(--blue-700);
-  padding:2.0mm 2.0mm 3.4mm; /* 下側を3mm増やして見出しとの間隔を空ける */
-  margin-left:3.5mm;
-}
-
-.detail-table{
-  --detail-col-icon:10mm;
-  --detail-col-date:41mm;
-  --detail-col-violation:60mm;
-  --detail-col-danger:41mm;
-  --detail-col-links:35mm;
-  display:flex;
-  flex-direction:column;
-  border-radius:4px;
-  overflow:hidden;
-  width:calc(100% + 6mm); /* 親の左右パディング3mmぶん拡張 */
-  margin-left:-3mm;
-}
-.detail-table__row{
-  display:grid;
-  grid-template-columns:var(--detail-col-icon) var(--detail-col-date) var(--detail-col-violation) var(--detail-col-danger) var(--detail-col-links);
-  align-items:stretch;
-  column-gap:2mm;
-}
-.detail-table__row--header{
-  font-weight:500;
-  color:#4a5670;
-  font-size:10px;
-  letter-spacing:0.01em;
-
-}
-.detail-table__row--header .detail-table__cell{
-  align-items:flex-start;
-  text-align:left;
-  padding-left:1.5mm; /* ヘッダのみ左へ1mm寄せる（元との差分1mm） */
-  font-size:10px;
-  line-height:1.2;
-  padding-top:1.25mm;
-  padding-bottom:1.25mm;
-}
-.detail-table__row--header .detail-table__date{
-  transform:translateX(-3ch); /* 発生日時ヘッダをさらに1文字半左へ */
-}
-.detail-table__row--header .detail-table__links{
-  padding-left:0; /* リンクヘッダだけ左へ寄せる */
-  transform:translateX(-5mm);
-}
-.detail-table__row--header .detail-table__danger{
-  transform:translateX(1.5mm); /* さらに0.5mm右へ */
-}
-.detail-table__headerDivider{
-  border:none;
-  border-top:2px solid #F0F4FA;
-  margin:1.5mm 0 0; /* 上方向の余白を1.5mm */
-  width:100%;
-  display:block;
-  align-self:stretch;
-}
-.detail-table__row--year{
-  grid-template-columns:1fr;
-  color:#4a5670;
-  font-weight:500;
-  font-size:12px;
-  padding:1.6mm 2mm;
-  display:flex;
-  align-items:baseline;
-  gap:0.6mm;
-  border-bottom:2px solid #F0F4FA; /* 年行の下に水平線を追加 */
-
-}
-.detail-table__yearNumber{
-  font-size:15px;
-  transform:translateX(3.5mm); /* 年行を右に寄せる */
-}
-.detail-table__yearUnit{
-  font-size:10px;
-  transform:translateX(3.0mm); /* 年行を右に寄せる */
-}
-.detail-table__row--tone{
-  background:transparent;
-  border-bottom:1px solid #e4e8f1; /* 行下に水平線 */
-}
-.detail-table__row--alert{
-  background:#fff3f0;
-  border-bottom:1px solid #e4e8f1; /* 行下に水平線 */
-}
-.detail-table__cell{
-  padding:2.0mm 1.2mm; /* 全体を0.2mm上げるため上下パディングを減らす */
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:0.6mm;
-}
-.detail-table__icon{
-  align-items:center;
-  justify-content:center;
+  font-size:15pt;
   font-weight:800;
-  color:#b4261c;
-  font-size:12px;
+  line-height:1;
 }
-.detail-table__recentIcon{
-  width:20px;
-  display:block;
-  transform:translateX(-0.40mm) translateY(0.5mm); /* 左へ0.40mm、下へ0.5mm */
-
-}
-.detail-table__date{
-  font-weight:500;
-  color:#0f1f3e;
-  font-size:10px;
-  letter-spacing:0.01em;
-  align-items:flex-start;
-  justify-content:flex-start;
-  text-align:left;
-  transform:translateX(-3ch); /* さらに1文字半ぶん左へ */
-}
-.detail-table__date--day{
-  align-items:center;
-  flex-direction:row;
-  gap:3px; /* 日付と曜日をくっつける */
-}
-.detail-table__dayMd{
-  font-weight:500;
-  font-size:20px;
-}
-.detail-table__dow{
-  font-size:12px;
-  font-weight: 500;
-  margin-left:-0.5mm; /* 少し左に寄せる */
-  margin-bottom:-0.5mm;
-}
-.detail-table__dow--sat{
-  color:var(--blue-700);
-}
-.detail-table__dow--sun{
-  color:#c02b16;
-}
-.detail-table__time{
-  font-size:15px;
-  font-weight: 700;
-  color:#4a5670;
-  margin-left:6mm; /* 曜日との間隔を確保 */
-}
-.detail-table__violation{
-  color:#0f1f3e;
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:0.01em;
-  padding-left:1mm;
-}
-.detail-table__label{
-  font-weight:700;
-  line-height:1.35;
-  min-height:calc(1.35em * 2); /* 1行でも2行分の高さを確保 */
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-}
-.detail-table__label--twoLine{
-  gap:1.5mm; /* 改行ありの場合の行間をさらに広げる */
-}
-.detail-table__label--singleLine{
-  min-height:auto;          /* 1行は高さ制約を外す */
-  justify-content:center;   /* 縦方向センター寄せ */
-}
-.detail-table__labelLine--primary{
-  font-size:13px;
-  letter-spacing: 0.05em;
-  font-weight:550;
-}
-.detail-table__labelLine--sub{
-  font-size:10px;
-  font-weight:250;
-  margin-top:0.2mm;
-  color:#767676;
-  letter-spacing:0.01em;
-}
-.detail-table__sub{
-  font-size:12px;
-  color:#6a748a;
-}
-.detail-table__danger{
-  align-items:flex-start;
-  justify-content:flex-start;
-  padding-left:3.5mm; /* 右へ3mm寄せる（基準から+6mm移動） */
-  padding-bottom:0;
-}
-.detail-tag{
-  display:inline-flex;
-  align-items:center;
-  justify-content:flex-start;
-  padding:0.5mm 1mm;
-  margin-right:2mm;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:800;
-  color:#8b1d19;
-  background:transparent;
-  gap:1mm;
-}
-.detail-tag--icon{ padding-left:2.4mm; padding-right:2.4mm; }
-.detail-tag--iconOnly{
-  padding:0;
-  margin-right:4mm;
-  margin-top:5px;
-}
-.detail-tag__iconImg{
-  height:26px; 
-  display:block;
-  transform-origin:center;
-  transform:scale(1) translateY(0.0mm); /* 上下移動なし */
-}
-
-.detail-tag__label{
-  display:inline-flex;
-  align-items:center;
-}
-.detail-table__links{
-  align-items:flex-end;
-}
-.detail-links{
-  display:flex;
-  gap:2.5mm;
-  align-items:center;
-  justify-content:flex-end;
-}
-.detail-linkBtn__icon{
-  height:35px; /* 危険疑いアイコンと同じ縦幅に揃える */
-  width:auto;
-  display:block;
-}
-.detail-linkBtn--primary{
-  background:#1e6edc;
-  color:#fff;
-}
-.detail-linkBtn--ghost{
-  background:#fff;
-}
-.detail-note{
-  margin-top:1mm;
-  font-size:10px;
-  color:#767676;
-  display:flex;
-  align-items:center;
-  gap:2mm;
-  letter-spacing:0.05em;
-  transform:translateY(-1mm); /* 一覧に寄せて密着感を出す */
-}
-.detail-note__icon{
-  width:20px;
-  height:20px;
-  display:block;
-  transform: translateX(-1mm); /* さらに0.5mm右へ */
-}
-.detail-note__iconWrap{
-  display:flex;
-  align-items:center;
-}
-.detail-note__text{
-  line-height:1.4;
-  transform:translateX(-2.5mm); /* 文言を左に2.5mm寄せる */
-}
-.detail-memo{
-  margin-top:1.4mm;
-  background:#fff;
-  border-radius:6px;
-  padding:2.4mm 3mm;
-  box-shadow:0 1px 4px rgba(16,31,63,0.05);
-  display:flex;
-  flex-direction:column;
-  gap:1mm;
-}
-.detail-memo__title{
-  font-weight:800;
-  color:#1b2b47;
-  font-size:9pt;
-}
-.detail-memo__desc{
-  margin:0;
-  font-size:7pt;
-  color:#4a5670;
-}
-.detail-memo__box{
-  margin-top:1mm;
-  min-height:32mm;
-  border:1px solid #d9e0f0;
-  border-radius:4px;
-  background:#fafdff;
-}
-.detail-memo__advisor{
-  margin-top:3mm;
-  padding-bottom:1mm;
-  font-size:12px;
-  color:#1b2b47;
-  display:flex;
-  align-items:flex-end;
-  gap:4mm;
-  justify-content:flex-start;
-}
-.detail-memo__line{
-  flex:0 0 42mm;
-  width:42mm;
-  border-bottom:1px solid #8d97ae;
-  display:inline-block;
-  height:0;
-  transform: translateY(2mm);
-}
+/* 概要ページ: まとめテーブルの詳細 */
+.detail{ font-size:8.5pt; color:var(--ink-900); }
+/* 概要ページ: 事故リスクが高いと判定された指導項目（配置:flex / 外側余白 / 間隔） */
 .gaiyou-riskSummary{
   margin-top:3mm;
   display:flex;
   flex-direction:column;
   gap:0.6mm;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目のリード文（文字色:青 / 外側余白 / 文字サイズ） */
 .gaiyou-riskSummary__lead{
   color:var(--blue-700);
   font-weight:700;
   margin:0;
   font-size:12px;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目のパネル（背景:白 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 枠線） */
 .gaiyou-riskSummary__panel{
   background:#fff;
   border-radius:4px;
@@ -582,17 +279,20 @@ body.print-a4 {
   margin-left:auto;
   margin-right:auto;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目のパネル（外側余白） */
 .gaiyou-riskSummary__panel > *{
   margin-left:0;
   margin-right:0;
   transform:translateX(2.5mm);
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の行（配置:flex / 間隔） */
 .gaiyou-riskSummary__line{
   display:flex;
   align-items:center;
   gap:3mm;
   flex-wrap:wrap;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目のタイトル（文字色:指定 / 文字サイズ） */
 .gaiyou-riskSummary__title{
   font-size:25px;
   font-weight:700;
@@ -600,6 +300,7 @@ body.print-a4 {
   line-height:1.1;
   letter-spacing:0.15em;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数エリア（配置:flex / 外側余白 / 間隔） */
 .gaiyou-riskSummary__counts{
   display:flex;
   gap:2mm;
@@ -608,6 +309,7 @@ body.print-a4 {
   margin-left:6ch;
   margin-top:1.0mm;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数（文字色:赤 / 配置:flex / 間隔 / 文字サイズ） */
 .gaiyou-riskSummary__count{
   display:flex;
   align-items:flex-end;
@@ -615,11 +317,13 @@ body.print-a4 {
   color:var(--red-600);
   font-weight:700;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数（文字サイズ） */
 .gaiyou-riskSummary__count span{
   font-size:12px;
   font-weight:500;
   line-height:1.1;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数ラベル（背景:赤 / 文字色:白 / 配置:inline-block / 内側余白 / 枠線） */
 .gaiyou-riskSummary__countLabel{
   display:inline-block;
   padding:1.3mm 2mm;
@@ -629,6 +333,7 @@ body.print-a4 {
   color:#fff;
   line-height:1;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数値（配置:inline-flex / 間隔 / 文字サイズ） */
 .gaiyou-riskSummary__countValue{
   display:inline-flex;
   align-items:baseline;
@@ -636,18 +341,21 @@ body.print-a4 {
   font-size:inherit;
   font-weight:inherit;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数数値（配置:inline-block / 文字サイズ） */
 .gaiyou-riskSummary__countNumber{
   font-size:23px !important;
   font-weight:700 !important;
   line-height:1;
   display:inline-block;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数単位（配置:inline-block / 文字サイズ） */
 .gaiyou-riskSummary__countUnit{
   font-size:17px !important;
   font-weight:700 !important;
   line-height:1;
   display:inline-block;
 }
+/* 概要ページ: 事故リスクが高いと判定された指導項目の件数内訳ラベル（配置:inline-block / 文字サイズ） */
 .gaiyou-riskSummary__countPlainLabel{
   display:inline-block;
   font-size:13px !important;
@@ -655,6 +363,7 @@ body.print-a4 {
   position:relative;
   top:-0.4mm;
 }
+/* 概要ページ: 改善チェックリスト（背景:指定 / 内側余白 / 外側余白 / 枠線） */
 .gaiyou-checklist{
   margin-top:0;
   background:transparent;
@@ -663,6 +372,7 @@ body.print-a4 {
   border:none;
   box-shadow:none;
 }
+/* 概要ページ: 改善チェックリスト＋直近シーン枠（背景:白 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 枠線） */
 .gaiyou-mainCard{
   background:#fff;
   border:1px solid #e4e8f1;
@@ -677,35 +387,40 @@ body.print-a4 {
   margin-right:auto;
   margin-bottom:0;
 }
+/* 概要ページ: 改善チェックリスト＋直近シーン枠（外側余白） */
 .gaiyou-mainCard > *{
   margin-left:0;
   margin-right:0;
   transform:translateX(2.5mm);
 }
+/* 概要ページ: 改善チェックリスト（文字色:青 / 外側余白 / 文字サイズ） */
 .gaiyou-checklist h2{
   margin:0 0 3mm 0;
   font-size:12px;
   font-weight:700;
   color:var(--blue-700);
 }
+/* 概要ページ: 改善チェックリスト（文字色:指定 / 外側余白 / 文字サイズ） */
 .gaiyou-checklist header p{
   margin:0;
   color:var(--ink-600);
   font-size:9pt;
 }
+/* 概要ページ: 改善チェックリスト（文字色:濃色 / 文字サイズ） */
 .gaiyou-checklist header p.gaiyou-checklist__note{
   font-size:10px;
   font-weight:500;
   color:#1E1E1E;
   letter-spacing:0.01em;
 }
+/* 概要ページ: 改善チェックリストのカード一覧（配置:flex / 外側余白 / 間隔） */
 .gaiyou-checklist__cards{
   margin-top:3mm;
   display:flex;
   flex-direction:column;
   gap:2mm;
 }
-/* チェックカード: ベースとハイライト */
+/* 概要ページ: 改善チェックリストのカード（背景:白 / 内側余白 / 枠線） */
 .gaiyou-checkCard{
   border:none;
   border-radius:0;
@@ -713,43 +428,13 @@ body.print-a4 {
   background:#fff;
   box-shadow:none;
 }
-.gaiyou-checkCard--highlight{
-  background:#fef3f2;
-  border-color:#f1b4ae;
-}
-.gaiyou-checkCard--filled{
-  background:#fff;
-  border-color:transparent;
-}
+/* 概要ページ: 改善チェックリストのカードの見出し（配置:flex / 間隔） */
 .gaiyou-checkCard__head{
   display:flex;
   gap:2mm;
   align-items:flex-start;
 }
-.gaiyou-checkCard__checkbox{
-  width:4mm;
-  height:4mm;
-  border:2px solid #c8ced8;
-  border-radius:2px;
-  margin-top:0.4mm;
-  background:#fff;
-}
-.gaiyou-checkCard__checkbox--checked{
-  background:#2f3a52;
-  border-color:#2f3a52;
-  position:relative;
-}
-.gaiyou-checkCard__checkbox--checked::after{
-  content:'';
-  position:absolute;
-  top:40%;
-  left:22%;
-  width:45%;
-  height:20%;
-  border-left:2px solid #fff;
-  border-bottom:2px solid #fff;
-  transform:rotate(-45deg);
-}
+/* 概要ページ: 改善チェックリストのカードのタイトル（文字色:濃色 / 文字サイズ） */
 .gaiyou-checkCard__title{
   flex:1;
   font-weight:700;
@@ -757,7 +442,8 @@ body.print-a4 {
   line-height:1.25;
   font-size:12px;
 }
-/* タイトル＋件数の並びとチェックアイコン */
+
+/* 概要ページ: 改善チェックリストのカードの行（配置:flex / 内側余白 / 間隔） */
 .gaiyou-checkCard__row{
   display:flex;
   gap:3mm;
@@ -766,6 +452,7 @@ body.print-a4 {
   padding:0.8mm 1mm;
   border-radius:4px;
 }
+/* 概要ページ: 改善チェックリストのカードの行【強調】（背景:指定 / 文字色:白 / 内側余白） */
 .gaiyou-checkCard__row--highlight{
   background:#EB645A;
   color:#fff;
@@ -773,42 +460,51 @@ body.print-a4 {
   padding-right:1mm;
 
 }
+/* 概要ページ: 改善チェックリストのカードの行【オフセット】（内側余白 / 外側余白） */
 .gaiyou-checkCard__row--offset{
   margin-left:-1.6em;
   padding-top: 4.5px;
   transform: translateX(1.0mm);
 }
+/* 概要ページ: 改善チェックリストのカードのチェック行（配置:flex / 外側余白 / 間隔） */
 .gaiyou-checkCard__checkRow{
   display:flex;
   align-items:center;
   gap:1.4mm;
   margin-top:0;
 }
+/* 概要ページ: 改善チェックリストのカードの行（文字色:赤） */
 .gaiyou-checkCard__row:not(.gaiyou-checkCard__row--highlight) .gaiyou-checkCard__checkRow span:last-child{
   color:#c02b16;
 }
 .gaiyou-checkCard__checkRow--completed span,
 .gaiyou-checkCard__row:not(.gaiyou-checkCard__row--highlight) .gaiyou-checkCard__checkRow--completed span:last-child,
 .gaiyou-checkCard__row--highlight .gaiyou-checkCard__checkRow--completed span,
+/* 概要ページ: 改善チェックリストのカードの行【強調】（文字色:指定） */
 .gaiyou-checkCard__row--highlight .gaiyou-checkCard__checkRow--completed span:last-child{
   color:#C8C8C8;
 }
+/* 概要ページ: 改善チェックリストのカードのチェック行 */
 .gaiyou-checkCard__checkRow:first-child{ margin-top:0; }
+/* 概要ページ: 改善チェックリストのカードのチェックアイコン画像（配置:block） */
 .gaiyou-checkCard__checkIconImg{
   width:4mm;
   height:4mm;
   display:block;
   flex-shrink:0;
 }
+/* 概要ページ: 改善チェックリストのカードの行【強調】 */
 .gaiyou-checkCard__row--highlight .gaiyou-checkCard__checkIconImg{
   filter:brightness(0) invert(1);
 }
+/* 概要ページ: 改善チェックリストのカードの件数（文字色:赤 / 文字サイズ） */
 .gaiyou-checkCard__metric{
   font-size:10px;
   color:#c02b16;
   font-weight:600;
   letter-spacing:0.01em;
 }
+/* 概要ページ: 改善チェックリストのカードの件数ラベル（背景:白 / 文字色:赤 / 配置:inline-flex / 内側余白 / 文字サイズ） */
 .gaiyou-checkCard__metricLabel{
   display:inline-flex;
   align-items:center;
@@ -819,47 +515,54 @@ body.print-a4 {
   font-weight:700;
   line-height:1.2;
 }
+/* 概要ページ: 改善チェックリストのカードの件数ラベル【内訳】（背景:指定 / 内側余白） */
 .gaiyou-checkCard__metricLabel--plain{
   background:transparent;
   padding:0;
   border-radius:0;
 }
+/* 概要ページ: 改善チェックリストのカードの行【強調】（文字色:白） */
 .gaiyou-checkCard__row--highlight .gaiyou-checkCard__metricLabel--plain{
   color:#fff;
 }
+/* 概要ページ: 改善チェックリストのカードの件数値（外側余白） */
 .gaiyou-checkCard__metricValue{
   margin-left:0.6mm;
 }
+/* 概要ページ: 改善チェックリストのカードの件数【強調】（文字色:白 / 外側余白） */
 .gaiyou-checkCard__metric--highlight{
   color:#ffffff;
   margin-top:-1.5px;
 }
+/* 概要ページ: 改善チェックリストのカードの行（文字色:赤） */
 .gaiyou-checkCard__row:not(.gaiyou-checkCard__row--highlight) .gaiyou-checkCard__metric{
   color:#c02b16;
 }
 /* 詳細・警告ブロック共通 */
+/* 概要ページ: 改善チェックリストのカードのブロック（外側余白） */
 .gaiyou-checkCard__block{
   margin-top:1.2mm;
   margin-right:5mm;
 }
+/* 概要ページ: 改善チェックリストのカードのブロック【枠線あり】（背景:白 / 内側余白 / 枠線） */
 .gaiyou-checkCard__block--outlined{
   border:1px solid #c02b16;
   border-radius:6px;
   padding:1.5mm 2mm;
   background:#fff;
 }
+/* 概要ページ: 改善チェックリストのカードの警告エリア（背景:白 / 内側余白 / 外側余白） */
 .gaiyou-checkCard__warnArea{
   background:#fff9f8;
   margin:-1.5mm -2mm 0;
   padding:1.5mm 2mm 0;
   border-radius:4px 4px 0 0;
 }
+/* 概要ページ: 改善チェックリストのカードの警告エリア（外側余白） */
 .gaiyou-checkCard__warnArea .gaiyou-checkCard__divider{
   margin:1mm 0 0;
 }
-.gaiyou-checkCard__block--warn{
-  background:#fef3f2;
-}
+/* 概要ページ: 改善チェックリストのカードの注意文（背景:白 / 文字色:赤 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 枠線 / 文字サイズ） */
 .gaiyou-checkCard__alert{
   margin:0;
   color:#c02b16;
@@ -875,12 +578,14 @@ body.print-a4 {
   margin-left:-2mm;
   margin-right:-2mm;
 }
+/* 概要ページ: 改善チェックリストのカードの注意文アイコン（外側余白） */
 .gaiyou-checkCard__alertIcon{
   width:4mm;
   height:4mm;
   flex-shrink:0;
   margin-top:0.0mm;
 }
+/* 概要ページ: 改善チェックリストのカードの注意文【注意】（背景:白 / 配置:block / 内側余白 / 外側余白 / 枠線） */
 .gaiyou-checkCard__alert--warn{
   background:#fff9f8;
   border:none;
@@ -890,6 +595,7 @@ body.print-a4 {
   margin-left:-2mm;
   margin-right:-2mm;
 }
+/* 概要ページ: 改善チェックリストのカードの注記（文字色:濃色 / 外側余白 / 文字サイズ） */
 .gaiyou-checkCard__note{
   margin:0;
   color:#424b63;
@@ -897,22 +603,26 @@ body.print-a4 {
   line-height:2.0;
   margin-top:0.5em;
 }
+/* 概要ページ: 改善チェックリストのカードの注記【字下げ】（内側余白） */
 .gaiyou-checkCard__note--indent{
   padding-left:0;
 }
+/* 概要ページ: 改善チェックリストのカードの区切り線（外側余白 / 枠線） */
 .gaiyou-checkCard__divider{
   border:none;
   border-top:1px solid #f1b4ae;
   margin:1.2mm 0;
 }
+/* 概要ページ: 改善チェックリストのカードのブロック【枠線あり】（外側余白 / 枠線） */
 .gaiyou-checkCard__block--outlined .gaiyou-checkCard__divider{
   margin-left:-2mm;
   margin-right:-2mm;
-  width:calc(100% + 4mm); /* 枠線まで届くように左右を伸ばす */
-  border-top:1px solid #c02b16; /* 枠線色に合わせる */
+  width:calc(100% + 4mm); 
+  border-top:1px solid #c02b16; 
 }
+/* 概要ページ: 直近の違反疑いシーン（背景:指定 / 配置:flex / 内側余白 / 外側余白 / 枠線） */
 .gaiyou-scene{
-  margin-top:0.2mm; /* 2mm詰める */
+  margin-top:0.2mm; 
   background:transparent;
   border-radius:0;
   border:none;
@@ -922,12 +632,14 @@ body.print-a4 {
   /* gap:0.2mm; */
   box-shadow:none;
 }
+/* 概要ページ: 直近の違反疑いシーン（文字色:青 / 外側余白 / 文字サイズ） */
 .gaiyou-scene header h2{
   margin:0;
   color:var(--blue-700);
   font-size:12px;
   font-weight:700;
 }
+/* 概要ページ: 直近の違反疑いシーン（文字色:濃色 / 外側余白 / 文字サイズ） */
 .gaiyou-scene header p{
   margin:0.5mm 0 0;
   color:#1E1E1E;
@@ -935,11 +647,13 @@ body.print-a4 {
   font-weight:500;
   letter-spacing:0.01em;
 }
+/* 概要ページ: 直近の違反疑いシーンのメタ情報（配置:flex） */
 .gaiyou-scene__meta{
   display:flex;
   flex-direction:column;
   /* gap:0.5mm; */
 }
+/* 概要ページ: 直近の違反疑いシーンのメタ情報項目（配置:flex / 間隔） */
 .gaiyou-scene__metaItem{
   display:flex;
   gap:2.0mm;
@@ -947,6 +661,7 @@ body.print-a4 {
   flex-wrap:wrap;
   /* margin-bottom:0.2mm; */
 }
+/* 概要ページ: 直近の違反疑いシーンのメタ情報（配置:inline-flex） */
 .gaiyou-scene__meta dt{
   display:inline-flex;
   align-items:center;
@@ -961,6 +676,7 @@ body.print-a4 {
   margin:0.5mm;
   letter-spacing:0.01em;
 }
+/* 概要ページ: 直近の違反疑いシーンのメタ情報（文字色:濃色 / 配置:inline / 外側余白 / 文字サイズ） */
 .gaiyou-scene__meta dd{
   margin:0;
   color:#1a2135;
@@ -968,13 +684,15 @@ body.print-a4 {
   font-size:10px;
   display:inline;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア（配置:grid / 外側余白 / 間隔） */
 .gaiyou-scene__media{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:1.0mm;
-  margin-top:-5mm; /* bring media closer to hazard label block */
-  justify-items:center; /* 固定サイズのサムネイルを中央寄せ */
+  margin-top:-5mm; 
+  justify-items:center; 
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠（背景:白 / 文字色:濃色 / 配置:flex / 文字サイズ） */
 .gaiyou-mediaFrame{
   border-radius:0;
   min-height:35mm;
@@ -985,47 +703,53 @@ body.print-a4 {
   font-size:7pt;
   letter-spacing:.05em;
   color:#2f3a52;
-  background:#fff; /* 余白を感じにくい白背景 */
+  background:#fff; 
   box-shadow:none;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠【動画】（文字色:白 / 内側余白 / 外側余白） */
 .gaiyou-mediaFrame--video{
   background-image:none;
   color:#fff;
   padding:0;
   overflow:hidden;
-  margin-left:1.0mm; /* bring media closer to hazard label block */
+  margin-left:1.0mm; 
   width:380px;
   height:150px;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠【地図】（文字色:白 / 内側余白 / 外側余白） */
 .gaiyou-mediaFrame--map{
   background-image:none;
   color:#fff;
   padding:0;
   overflow:hidden;
-  margin-left:-8mm; /* bring media closer to hazard label block */
+  margin-left:-8mm; 
   width:265px;
   height:150px;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠のリンク（配置:block） */
 .gaiyou-mediaFrame__link{
   display:block;
   width:100%;
   height:100%;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠のサムネイル */
 .gaiyou-mediaFrame__thumb{
   position:relative;
-  overflow:hidden; /* ボタンや画像が枠外へ出ないようにする */
+  overflow:hidden; 
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠のサムネイル（配置:block / 外側余白） */
 .gaiyou-mediaFrame__thumb img{
   width:100%;
   height:100%;
   object-position:center;
   display:block;
   transform:none;
-  border-radius:5px; /* サムネイルの角をわずかに丸くする */
+  border-radius:5px; 
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の誘導ボタン（背景:指定 / 内側余白） */
 .gaiyou-mediaFrame__cta{
   position:absolute;
   right:10px; 
@@ -1034,19 +758,23 @@ body.print-a4 {
   padding:0;
   border-radius:0;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の誘導ボタン画像（配置:block） */
 .gaiyou-mediaFrame__ctaImg{
   display:block;
   height:35px !important;
   max-height:35px;
   width:auto !important;
-  max-width:140px; /* ボタン枠が欠けないように余裕を持たせる */
+  max-width:140px; 
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の誘導ボタン【地図】 */
 .gaiyou-mediaFrame__cta--map .gaiyou-mediaFrame__ctaImg{
-  max-width:none; /* 地図ボタンの文字が切れないように幅制限を外す */
+  max-width:none; 
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の誘導ボタン【地図】（背景:指定） */
 .gaiyou-mediaFrame__cta--map{
   background:transparent;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の代替表示（背景:指定 / 文字色:濃色 / 配置:none / 文字サイズ） */
 .gaiyou-mediaFrame__fallback{
   width:100%;
   height:100%;
@@ -1060,13 +788,15 @@ body.print-a4 {
   background:linear-gradient(135deg,#dfeaff,#f1f4ff);
   display:none;
 }
+/* 概要ページ: 直近の違反疑いシーンのメディア枠の代替表示【表示】 */
 .gaiyou-mediaFrame__fallback--show{display:flex;}
+/* 概要ページ: 違反疑い/危険疑いの説明（背景:白 / 文字色:指定 / 配置:flex / 内側余白 / 外側余白 / 枠線 / 文字サイズ） */
 .gaiyou-legend{
-  margin-top:0.5mm; /* 上方向の余白を0.5mm */
+  margin-top:0.5mm; 
   border:1px solid #e4e8f1;
   border-radius:5px;
   background:#fff;
-  padding:2.5mm 2.5mm; /* 上下を2mm増やす */
+  padding:2.5mm 2.5mm; 
   display:flex;
   flex-direction:column;
   color:#4b5571;
@@ -1076,747 +806,461 @@ body.print-a4 {
   margin-left:auto;
   margin-right:auto;
 }
+/* 概要ページ: 違反疑い/危険疑いの説明（内側余白） */
 .gaiyou-legend > div{
-  padding-left:13.7mm;       /* ほんの少しだけ詰める */
+  padding-left:13.7mm; 
   /* padding-top:0.5mm;
   padding-bottom:0.5mm; */
-  text-indent:-13.7mm; /* 2行目以降をラベル長ぶんインデント */
+  text-indent:-13.7mm; 
 }
+/* 概要ページ: 違反疑い/危険疑いの説明（外側余白） */
 .gaiyou-legend > *{
   margin-left:0;
   margin-right:0;
   transform:translateX(2.5mm);
 }
+/* 概要ページ: 違反疑い/危険疑いの説明（文字色:青） */
 .gaiyou-legend strong{
   color:var(--blue-700);
 }
-.gaiyou-pager{
-  margin-top:2.8mm;
-  text-align:center;
-  color:#7b869f;
-  font-weight:700;
-  font-size:8.5pt;
-}
 
-/* A4 1枚のシート */
-.sheet{
-  display:grid; gap:0.6mm;
-  align-content: start;
-  page-break-after: always;
-  width:100%; /* 100vwだとはみ出しで改ページが増えるのを防ぐ */
-  min-height:100vh;
-  margin:0;
-  padding:0; /* 余計な高さを加えない。下余白は@pageで確保 */
-  background:#F0F4FA; /* HTML/PDFで統一して下端まで敷く */
-}
+/* ===================================
+ * 詳細ページ
+ * =================================== */
 
-.sheet--break {
-  page-break-before: always;
-}
 
-.report-bodyWrap{
-  background:#F0F4FA;
-  padding:2mm 3mm 3mm;
-  min-height:auto; /* 高さ固定を解除し、改ページの余白を抑制 */
-}
-
-/* ===== ヘッダー（青帯） ===== */
-.topbar{
-  background: linear-gradient(90deg, var(--blue-700), var(--blue-600));
-  color:#fff; border-radius:6px; padding:6mm 8mm;
-  /* タイトル（左）とメタ（右）を固定2カラムで配置 */
-  display:grid; grid-template-columns: 1fr var(--meta-width); align-items:center;
-}
-.topbar__title{ margin:0; font-size:16pt; font-weight:800; letter-spacing:.02em; white-space: nowrap; }
-.topbar__title .page-of{ margin-left:0; font-size:.8em; opacity:.85; }
-.topbar__title .sep{ opacity:.6; margin:0 .5em; }
-.meta{ display:flex; gap:1ch; margin:0; justify-content: flex-end; align-items:flex-start; flex-wrap: nowrap; }
-.meta__item{ min-width:0; flex: 0 1 auto; }
-.meta__item dt{ opacity:.85; font-size:9.5pt; }
-/* メタテキストは2行クランプ（高さ固定）、右寄せ・折返し */
-.meta__item dd{
-  margin:0; font-size:10.5pt; font-weight:700;
-  max-width:100%; white-space: normal; text-align: left;
-  overflow-wrap:anywhere; word-break:break-word;
-  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-overflow:ellipsis;
-}
-/* 事業所名が長い場合の縮小 */
-.meta__office--small{ line-height: 1.2; }
-.meta__item dd.meta__office--small{ font-size: 50%; -webkit-line-clamp:2; }
-/* ドライバー名が長い場合の縮小 */
-.meta__name--small{ line-height: 1.2; }
-.meta__item dd.meta__name--small{ font-size: 50%; -webkit-line-clamp:2; }
-/* 事業所名は早めに改行してレイアウト崩れを防ぐ */
-.meta__office{ overflow-wrap:anywhere; word-break: break-all; }
-
-/* ===== ハイライト3カード ===== */
-.highlights{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:4.8mm;
-  padding:0 1mm;
-}
-
-.hl{
-  background: var(--panel);
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:6mm 5mm;
+/* 詳細ページ: 事故リスクが高いと判定された指導項目（背景:白 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 枠線） */
+.detail-risk{
+  margin-top:1mm; 
   display:flex;
   flex-direction:column;
-  gap:3.5mm;
-  min-height:56mm;
-  max-height:56mm;
-  overflow:hidden;
-  position:relative;
-}
-.hl__divider{
-  position:absolute;
-  left:5mm;
-  right:5mm;
-  top:20.5mm;
-  border-top:1px solid var(--line);
-}
-.hl__text{
-  margin:0;
-  color:var(--ink-900);
-  font-size:9.5pt;
-  line-height:1.35;
-  display:-webkit-box;
-  -webkit-line-clamp:6;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.hl__band{
-  font-weight:800; font-size:10pt; color:#fff;
-  padding:2mm 3mm;
+  gap:0.8mm;
+  background:#fff;
+  border:1px solid #e4e8f1;
   border-radius:6px;
-  text-align:center;
-  min-height:12mm;
+  padding:4.5mm 3mm; 
+  box-shadow:none;
+  width:calc(100% - 8mm);
+  margin-left:auto;
+  margin-right:auto;
+}
+/* 詳細ページ: 事故リスクが高いと判定された指導項目（外側余白） */
+.detail-risk > *{
+  margin-left:0;
+  margin-right:0;
+}
+/* 詳細ページ: 事故リスクが高いと判定された指導項目の枠（内側余白） */
+.detail-risk__box{
+  padding-left:2.5mm; 
+}
+/* 詳細ページ: 事故リスクが高いと判定された指導項目の枠（配置:flex / 間隔） */
+.detail-risk__box{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:2mm;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.hl__band-label{ font-weight:inherit; }
-.hl__band-icon{
-  width:4.6mm;
-  height:4.6mm;
-  object-fit:contain;
-}
-
-/* body_sasetumae.ejs 用のハイライトバンドスタイル */
-.hl--danger .hl__band{ background:var(--red-600); }
-.hl--warn   .hl__band{ background:var(--amber-600); }
-.hl--good   .hl__band{ background:var(--green-600); }
-.hl__title{
-  margin:0;
-  font-size:12pt;
-  font-weight:800;
-  text-align:center;
-  line-height:1.3;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* ===== フッター ===== */
-.footer{
-  text-align:right;
-  color:var(--ink-400);
-  font-size:9pt;
-}
-
-/* ===================================
- * 概要ページ用スタイル
- * =================================== */
-
-/* ===== KPI 行 ===== */
-.headline{
-  display:flex;
-  align-items:flex-end;
-  justify-content:flex-end;
-  gap:6mm;
-  padding:0 2mm;
-}
-.headline__label{ color:var(--blue-700); font-size:10pt; }
-.headline__value{ font-size:22pt; font-weight:800; line-height:1; }
-.headline__value-percent{
-  font-size:0.75em;
-  margin-left:0.1em;
-  vertical-align:baseline;
-}
-.headline__rank{ color:var(--ink-400); font-size:10pt; }
-
-.highlights--summary .hl{
-  padding-top:16mm;
-}
-.highlights--summary .hl__divider{
-  position:absolute;
-  left:5mm;
-  right:5mm;
-  top:23mm;
-  border-top:1px solid var(--line);
-  margin:0;
-}
-.highlights--summary .hl__text{
-  margin-top:3mm;
-}
-.highlights--summary .hl__band{
-  position:absolute;
-  top:-1mm;
-  left:0;
-  right:0;
-  height:12mm;
-  padding:0 5mm;
-  border-radius:8px 8px 0 0;
-}
-.highlights--summary .hl__title{
-  margin-top:-2mm;
-}
-
-/* ===== セクション（テーブル） ===== */
-.group-table {
-  width: calc(100% - 1mm);
-  border-collapse: separate;
-  border-spacing: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-  margin-right: 2mm;
-}
-.group-table + .group-table {
-  margin-top: 3mm;
-}
-
-.summary-frame {
-  border: 1px solid var(--line);
-  padding: 3mm 10mm;
-  margin-top: 10mm;
-  border-radius: 8px;
-  min-height: 10mm;
-  background-color: var(--panel);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.summary-column {
-  flex: 1;
-  padding: 0 5mm;
-}
-
-.left-column {
-  text-align: left;
-  font-weight: 600;
-  color: var(--ink-900);
-  font-size: 10.5pt;
-}
-
-.right-column {
-  text-align: right;
-}
-
-.play-button-mock {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 12mm;
-  height: 8mm;
-  background-color: var(--red-600);
-  color: #fff;
-  padding: 0;
-  border-radius: 3mm;
-  font-size: 10pt;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: none;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-  overflow: hidden;
-}
-
-.play-button-mock:hover {
-  transform: scale(1.05);
-  box-shadow: none;
-}
-
-.play-icon {
-  font-size: 10pt;
-  line-height: 1;
-  transform: translateX(0.5mm);
-}
-.group-table thead th {
-  background: #fff;
-  padding: 2.5mm 1.2mm;
-  font-size: 9pt;
-  font-weight: 700;
-  color: var(--ink-600);
-  text-align: center;
-  border-bottom: 1px solid var(--line);
-  height: 6.5mm;
-  line-height: 6.5mm;
-}
-.group-table thead .cell--no { text-align: left; }
-.group-table thead .cell--page { padding-right: 0; }
-
-.group-table th,
-.group-table td {
-  padding: 2.5mm 1mm;
-  text-align: left;
-  vertical-align: top;
-  border: none;
-  border-top: 1px solid var(--line);
-  font-size: 10pt;
-}
-.group-table tbody tr:first-child td {
-  border-top: none;
-}
-.group-table .row--danger{ background: var(--red-050); }
-.group-table .row--warn  { background: var(--amber-050); }
-.group-table .row--good  { background: var(--green-050); }
-
-/* 列幅と配置 */
-.group-table .cell--no    { width: 20mm; }
-.group-table .cell--name  { width: 28mm; }
-.group-table .cell--tag   { width: 26mm; }
-.group-table .cell--rate  { width: 38mm; }
-.group-table .cell--count { width: 22mm; }
-.group-table .cell--page  { width: 22mm; }
-.group-table tbody .cell--page { text-align: left; }
-
-/* セル内コンテンツのスタイル */
-.no{
-  display:inline-grid;
-  place-items:center;
-  min-width:7mm;
-  height:7mm;
-  padding:0 1.2mm;
-  background:#fff;
-  border:1px solid #2a5db6;
-  border-radius:1mm;
-  font-weight:900;
-  color:#2a5db6;
-}
-.cell--name{ font-weight:700; }
-.cell--tag .tags{
-  display:flex;
-  flex-direction:row;
-  flex-wrap:wrap;
+  flex-direction:column;
   gap:1mm;
-  align-items:center;
-  justify-content:center;
-}
-.tag-pill{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:5mm;
-  min-height:6mm;
-  padding:0.8mm 1.7mm;
-  border-radius:2px;
-  font-weight:800;
-  font-size:9pt;
-  line-height:1;
-  color:#fff;
-  background: var(--ink-900);
-  letter-spacing:.05em;
-  box-shadow:0 0 0 0.2mm rgba(0,0,0,0.05);
-}
-.tag-pill__icon{
-  width:3.6mm;
-  height:3.6mm;
-  object-fit:contain;
-}
-.tag-pill--danger{ background: var(--red-600); }
-.tag-pill--warn  { background: var(--amber-600); }
-.tag-pill--good  { background: var(--green-600); }
-.cell--tag{
-  font-weight:800;
-  border-radius:2px;
-  color:#9b1b1b;
-}
-.row--warn .cell--tag{ color:inherit; }
-.row--good .cell--tag{ color:inherit; }
-.rate{
-  display:inline-flex;
-  align-items:baseline;
-  gap:0.8mm;
-  font-size:15pt;
-  font-weight:800;
-  line-height:1;
-}
-.rate__number{ font-weight:inherit; }
-.rate__unit{
-  font-size:0.66em;
-  font-weight:700;
-}
-.risk-count{
-  display:inline-flex;
-  align-items:baseline;
-  gap:0.8mm;
-  font-size:15pt;
-  font-weight:800;
-  line-height:1;
-}
-.risk-count__number{ font-weight:inherit; }
-.risk-count__unit{
-  font-size:0.66em;
-  font-weight:700;
-}
-.detail{ font-size:8.5pt; color:var(--ink-900); }
-.cell--count{ font-weight:800; }
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:3mm;
-  min-height:7mm;
-  padding:0 1.5mm;
-  width:20mm;
-  border:1px solid var(--line);
-  border-radius:1mm;
-  font-size:8pt;
-  color:#2a5db6;
-  background:#fff;
-  white-space:nowrap;
-}
-.btn__label{
-  display:inline-flex;
-  align-items:baseline;
-  gap:1mm;
-}
-.btn__number{
-  font-size:10pt;
-  font-weight:800;
-  line-height:1;
-}
-.btn__arrow{
-  width:2mm;
-  height:2mm;
-  object-fit:contain;
-}
-.btn__text{
-  font-size:4.5pt;
-  font-weight:700;
-}
-.btn,
-.btn:visited,
-.btn:hover,
-.btn:active{
-  text-decoration:none;
-}
-
-.rate-wrapper{
-  display:flex;
-  align-items:baseline;
-  gap:2mm;
-}
-.risk-wrapper{
-  display:flex;
-  align-items:baseline;
-  gap:2mm;
-}
-
-/* ===================================
- * 詳細ページ用スタイル
- * =================================== */
-
-/* 違反疑いシーン一覧 見出し */
-.violations-scene-title{
-  color: var(--blue-700);
-  text-align: left;
-  font-weight: 700;
-  font-size: 10.5pt;
-  margin-bottom: 0;
-}
-.violations-scene-title .page-of{
-  margin-left: 4mm;
-  font-size: 9.5pt;
-  color: var(--ink-600);
-}
-
-/* ===== 違反疑いシーン一覧（テーブル） ===== */
-.scenes-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-style: solid;
-  border-color: var(--line);
-  border-width: 0 0 1px 0;
-  background: var(--panel);
-  margin-top: 0;
-}
-.scenes-table thead th {
-  background: transparent;
-  padding: 2.5mm 4mm;
-  font-size: 9pt;
-  font-weight: 700;
-  color: var(--ink-600);
-  text-align: center;
-  border-bottom: 1px solid var(--line);
-  border-top: none;
-}
-.scenes-table th,
-.scenes-table td {
-  padding: 2.5mm 4mm;
-  text-align: left;
-  vertical-align: top;
-  border: none;
-  border-top: 1px solid var(--line);
-  font-size: 10pt;
-}
-.scenes-table td.scenes-year {
-  font-size: 16pt;
-  font-weight: 800;
-  color: var(--ink-900);
-  width: 20mm;
-}
-.scenes-table td.scenes-date { width: 16mm; font-weight: 700; }
-.scenes-table td.scenes-time { width: 16mm; }
-.scenes-table td.scenes-item { color: var(--ink-900); }
-.scenes-table td.scenes-actions { width: 36mm; }
-
-.scenes-item-icon { margin-right: 3mm; opacity: .9; }
-.scenes-item-icon__img {
-  display: inline-block;
-  width: auto;
-  height: 7mm;
-  object-fit: contain;
-}
-
-.scenes-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 3mm;
-  padding: 1.5mm 4mm;
-  border: 1px solid var(--blue-700);
-  color: var(--blue-700);
-  background: #fff;
-  border-radius: 1mm;
-  font-size: 9pt;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.scenes-btn:hover { filter: brightness(0.95); }
-.scenes-btn__icon {
-  width: 4mm;
-  height: 4mm;
-  object-fit: contain;
-}
-
-.highlights--detail .hl{
-  min-height:48mm;
-  max-height:48mm;
-  padding:5mm 4mm 4mm;
-  gap:1mm;
-  position:relative;
-}
-.highlights--detail .hl__divider{
-  top:15.5mm;
-}
-.hl__text-detail{
-  position:absolute;
-  left:5mm;
-  right:5mm;
-  top:18.5mm;
-  bottom:6.5mm;
-  margin:0;
-  color:var(--ink-900);
-  font-size:9.5pt;
-  line-height:1.35;
-  display:-webkit-box;
-  -webkit-line-clamp:6;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-
-/* body_sasetumae.ejs 用のハイライトバンドスタイル */
-.hl__band--sasetumae {
-  background:none;
-  color: var(--blue-700);
-  text-align:left;
-  display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
-  gap:2mm;
-  min-height:8mm;
   width:100%;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
 }
-.highlights--detail .hl__band--sasetumae {
-  min-height:8mm;
-  padding:1mm 0 0;
-  margin-bottom:1.2mm;
-  gap:1.5mm;
-  transform: translateX(-3mm);
-}
-.hl__band-meta{
-  margin-left:auto;
+/* 詳細ページ: 事故リスクが高いと判定された指導項目の行（配置:flex / 間隔） */
+.detail-risk__row{
   display:flex;
-  align-items:flex-end;
-  gap:1mm;
+  align-items:baseline;
+  gap:2.4mm;
+  flex-wrap:wrap;
 }
-.hl__band-metaRiskNumber{
-  font-size:18pt;
-  font-weight:800;
-  color:var(--ink-900);
-  line-height:0.9;
-  transform: translateY(-0.6mm);
+/* 詳細ページ: 事故リスクが高いと判定された指導項目の行【横並び】（間隔） */
+.detail-risk__row--inline{
+  align-items:center;
+  gap:2.4mm;
+  flex-wrap:wrap;
 }
-.hl__band-metaRiskUnit{
-  font-size:9.5pt;
+/* 詳細ページ: 事故リスクが高いと判定された指導項目のリード文（文字色:青 / 外側余白 / 文字サイズ） */
+.detail-risk__lead{
+  margin:0;
+  color:var(--blue-700);
+  font-size:12px;
+  font-weight:700;
+}
+/* 詳細ページ: 事故リスクが高いと判定された指導項目のタイトル（文字色:指定 / 内側余白 / 文字サイズ） */
+.detail-risk__title{
+  font-size:18px;
   font-weight:700;
   color:var(--ink-900);
-  line-height:0.9;
-  margin-bottom:1mm;
+  padding-left:1.5ch; 
+  letter-spacing:0.1em; 
 }
-.hl__band-meta--warn{
-  margin-left:auto;
+/* 詳細ページ: 違反疑い動画一覧（背景:白 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 枠線） */
+.detail-list{
+  margin-top:2.0mm; 
+  background:#fff;
+  border-radius:6px;
+  padding:0.4mm 3mm;
+  border:1px solid #e4e8f1;
+  box-shadow:none;
   display:flex;
   flex-direction:column;
-  align-items:flex-end;
-  gap:0.4mm;
+  gap:1.6mm;
+  width:calc(100% - 8mm);
+  margin-left:auto;
+  margin-right:auto;
 }
-.hl__band-metaWarnTop{
-  display:flex;
-  align-items:flex-end;
-  gap:1mm;
+/* 詳細ページ: 違反疑い動画一覧テーブルの見出し（内側余白） */
+.detail-table__caption{
+  padding-left:4.5mm; 
 }
-.hl__band-metaWarnNumber{
-  font-size:16pt;
-  font-weight:800;
-  color:var(--ink-900);
-  line-height:0.9;
-  transform: translateY(-0.4mm);
+/* 詳細ページ: 違反疑い動画一覧（外側余白） */
+.detail-list > *{
+  margin-left:0;
+  margin-right:0;
 }
-.hl__band-metaWarnUnit{
-  font-size:9.5pt;
+/* 詳細ページ: 違反疑い動画一覧テーブルの見出し（文字色:青 / 内側余白 / 外側余白 / 文字サイズ） */
+.detail-table__caption{
+  font-size:12px;
   font-weight:700;
-  color:var(--ink-900);
-  line-height:0.9;
-  margin-bottom:1mm;
-}
-.hl__band-metaWarnCaption{
-  font-size:6pt;
-  font-weight:600;
-  color:var(--ink-900);
-  text-align:right;
-}
-.hl--danger .hl__band.hl__band--sasetumae,
-.hl--warn .hl__band.hl__band--sasetumae,
-.hl--good .hl__band.hl__band--sasetumae {
-  background: none;
-  color: var(--blue-700);
-  text-align: left;
+  color:var(--blue-700);
+  padding:2.0mm 2.0mm 3.4mm; 
+  margin-left:3.5mm;
 }
 
-.hl--detail-card{
+/* 詳細ページ: 違反疑い動画一覧テーブル（配置:flex / 外側余白） */
+.detail-table{
+  --detail-col-icon:10mm;
+  --detail-col-date:41mm;
+  --detail-col-violation:60mm;
+  --detail-col-danger:41mm;
+  --detail-col-links:35mm;
   display:flex;
   flex-direction:column;
-  gap:2mm;
+  border-radius:4px;
+  overflow:hidden;
+  width:calc(100% + 6mm); 
+  margin-left:-3mm;
 }
-.hl__band--sasetumae .hl__band-left{
+/* 詳細ページ: 違反疑い動画一覧テーブルの行（配置:grid） */
+.detail-table__row{
+  display:grid;
+  grid-template-columns:var(--detail-col-icon) var(--detail-col-date) var(--detail-col-violation) var(--detail-col-danger) var(--detail-col-links);
+  align-items:stretch;
+  column-gap:2mm;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【ヘッダー】（文字色:濃色 / 文字サイズ） */
+.detail-table__row--header{
+  font-weight:500;
+  color:#4a5670;
+  font-size:10px;
+  letter-spacing:0.01em;
+
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【ヘッダー】（内側余白 / 文字サイズ） */
+.detail-table__row--header .detail-table__cell{
+  align-items:flex-start;
+  text-align:left;
+  padding-left:1.5mm; 
+  font-size:10px;
+  line-height:1.2;
+  padding-top:1.25mm;
+  padding-bottom:1.25mm;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【ヘッダー】 */
+.detail-table__row--header .detail-table__date{
+  transform:translateX(-3ch); 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【ヘッダー】（内側余白） */
+.detail-table__row--header .detail-table__links{
+  padding-left:0; /* リンクヘッダだけ左へ寄せる */
+  transform:translateX(-5mm);
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【ヘッダー】 */
+.detail-table__row--header .detail-table__danger{
+  transform:translateX(1.5mm); 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのヘッダー区切り線（配置:block / 外側余白 / 枠線） */
+.detail-table__headerDivider{
+  border:none;
+  border-top:2px solid #F0F4FA;
+  margin:0.5mm 0 0; 
+  width:100%;
+  display:block;
+  align-self:stretch;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【年区切り】（文字色:濃色 / 配置:flex / 内側余白 / 間隔 / 枠線 / 文字サイズ） */
+.detail-table__row--year{
+  grid-template-columns:1fr;
+  color:#4a5670;
+  font-weight:500;
+  font-size:12px;
+  padding:0.5mm 2mm;
   display:flex;
-  align-items:center;
-  gap:1.6mm;
+  align-items:baseline;
+  gap:0.6mm;
+  border-bottom:2px solid #F0F4FA; 
+
 }
-.hl__band-iconBadge{
-  display:inline-flex;
+/* 詳細ページ: 違反疑い動画一覧テーブルの年数値（文字サイズ） */
+.detail-table__yearNumber{
+  font-size:15px;
+  transform:translateX(3.5mm); 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの年単位（文字サイズ） */
+.detail-table__yearUnit{
+  font-size:10px;
+  transform:translateX(3.0mm); 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【通常】（背景:指定 / 枠線） */
+.detail-table__row--tone{
+  background:transparent;
+  border-bottom:1px solid #e4e8f1; 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの行【注意】（背景:白 / 枠線） */
+.detail-table__row--alert{
+  background:#fff3f0;
+  border-bottom:1px solid #e4e8f1; 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのセル（配置:flex / 内側余白 / 間隔） */
+.detail-table__cell{
+  padding:2.0mm 1.2mm; 
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:0.6mm;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのアイコン（文字色:指定 / 文字サイズ） */
+.detail-table__icon{
   align-items:center;
   justify-content:center;
-  width:4mm;
-  height:4mm;
-  box-shadow:0 1px 2px rgba(0,0,0,0.12);
-  transform: translateY(-0.2mm);
-  border-radius:0;
+  font-weight:800;
+  color:#b4261c;
+  font-size:12px;
 }
-.hl__band-iconBadge--danger{ background:var(--red-600); }
-.hl__band-iconBadge--warn{ background:var(--amber-600); }
-.hl__band-iconBadgeImg{
-  width:2.6mm;
-  height:2.6mm;
-  object-fit:contain;
+/* 詳細ページ: 違反疑い動画一覧テーブルの最新アイコン（配置:block） */
+.detail-table__recentIcon{
+  width:20px;
+  display:block;
+  transform:translateX(-0.40mm) translateY(0.5mm); 
+
 }
-
-/* ===================================
- * 指導記入ページ用スタイル
- * =================================== */
-
-.sidou-headline{
+/* 詳細ページ: 違反疑い動画一覧テーブルの発生日時（文字色:濃色 / 文字サイズ） */
+.detail-table__date{
+  font-weight:500;
+  color:#0f1f3e;
+  font-size:10px;
+  letter-spacing:0.01em;
+  align-items:flex-start;
+  justify-content:flex-start;
+  text-align:left;
+  transform:translateX(-3ch); 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの発生日時【日付】（間隔） */
+.detail-table__date--day{
+  align-items:center;
+  flex-direction:row;
+  gap:3px; 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの日付月日（文字サイズ） */
+.detail-table__dayMd{
+  font-weight:500;
+  font-size:20px;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの曜日（外側余白 / 文字サイズ） */
+.detail-table__dow{
+  font-size:12px;
+  font-weight: 500;
+  margin-left:-0.5mm; 
+  margin-bottom:-0.5mm;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの曜日【土】（文字色:青） */
+.detail-table__dow--sat{
+  color:var(--blue-700);
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの曜日【日】（文字色:赤） */
+.detail-table__dow--sun{
+  color:#c02b16;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの時刻（文字色:濃色 / 外側余白 / 文字サイズ） */
+.detail-table__time{
+  font-size:15px;
+  font-weight: 700;
+  color:#4a5670;
+  margin-left:6mm; 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの違反疑い（文字色:濃色 / 内側余白 / 文字サイズ） */
+.detail-table__violation{
+  color:#0f1f3e;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.01em;
+  padding-left:1mm;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのラベル（配置:flex / 文字サイズ） */
+.detail-table__label{
+  font-weight:700;
+  line-height:1.35;
+  min-height:calc(1.35em * 2); 
   display:flex;
   flex-direction:column;
   align-items:flex-start;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのラベル【2行】（間隔） */
+.detail-table__label--twoLine{
+  gap:1.5mm; 
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのラベル【1行】 */
+.detail-table__label--singleLine{
+  min-height:auto;         
+  justify-content:center;   
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのラベル行【主】（文字サイズ） */
+.detail-table__labelLine--primary{
+  font-size:13px;
+  letter-spacing: 0.05em;
+  font-weight:550;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルのラベル行【補足】（文字色:指定 / 外側余白 / 文字サイズ） */
+.detail-table__labelLine--sub{
+  font-size:10px;
+  font-weight:250;
+  margin-top:0.2mm;
+  color:#767676;
+  letter-spacing:0.01em;
+}
+/* 詳細ページ: 違反疑い動画一覧テーブルの危険疑い（内側余白） */
+.detail-table__danger{
+  align-items:flex-start;
   justify-content:flex-start;
+  padding-left:3.5mm; 
+  padding-bottom:0;
+}
+/* 詳細ページ: 危険疑いタグ（背景:指定 / 文字色:指定 / 配置:inline-flex / 内側余白 / 外側余白 / 間隔 / 文字サイズ） */
+.detail-tag{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  padding:0.5mm 1mm;
+  margin-right:2mm;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  color:#8b1d19;
+  background:transparent;
   gap:1mm;
-  padding:0 2mm;
 }
-.sidou-item-number-label{ color:var(--blue-700); font-size:10pt; text-align:left; font-weight:bold; }
-
-.sidou-border-box{
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  min-height: 16mm;
-  width: 100%;
-  padding: 2mm;
+/* 詳細ページ: 危険疑いタグ【アイコン付き】 */
+.detail-tag--icon{ padding-left:2.4mm; padding-right:2.4mm; }
+/* 詳細ページ: 危険疑いタグ【アイコン付きのみ】（内側余白 / 外側余白） */
+.detail-tag--iconOnly{
+  padding:0;
+  margin-right:4mm;
+  margin-top:5px;
 }
-
-.sidou-example-text{
-  color: var(--ink-900);
-  font-size: 9pt;
-  margin-top: 1mm;
-}
-
-.sidou-checkbox-text{
-  color: var(--ink-900);
-  font-size: 9pt;
-  margin-top: auto;
-  vertical-align: text-top;
+/* 詳細ページ: 危険疑いタグのアイコン画像（配置:block） */
+.detail-tag__iconImg{
+  height:26px; 
+  display:block;
+  transform-origin:center;
+  transform:scale(1) translateY(0.0mm); 
 }
 
-.checkbox-square{
-  font-size: 2em;
-  margin-right: 0.2em;
-  vertical-align: -0.20em;
-  line-height: 1;
+/* 詳細ページ: 違反疑い動画一覧テーブルのリンク */
+.detail-table__links{
+  align-items:flex-end;
 }
-
-.sidou-content-headline{
-  margin-top: 2mm;
+/* 詳細ページ: 動画/地図リンク（配置:flex / 間隔） */
+.detail-links{
+  display:flex;
+  gap:2.5mm;
+  align-items:center;
+  justify-content:flex-end;
 }
-
-.sidou-driver-response-headline{
-  margin-top: 2mm;
+/* 詳細ページ: 動画/地図リンクボタンのアイコン（配置:block） */
+.detail-linkBtn__icon{
+  height:35px; 
+  width:auto;
+  display:block;
 }
-
-.sidou-content-border-box{
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  min-height: 90mm;
-  width: 100%;
-  padding: 2mm;
-  margin-top: 1mm;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* 詳細ページ: 動画/地図リンクボタン【主】（背景:指定 / 文字色:白） */
+.detail-linkBtn--primary{
+  background:#1e6edc;
+  color:#fff;
 }
-
-/* 画面表示の見栄え */
-@media screen{
-  body.print-a4{ background:#fff; }
-  .sheet{
-    width:210mm;
-    min-height:297mm;
-    margin:0 auto;
-    padding:0;
-    background:#fff;
-    box-shadow:none;
-  }
+/* 詳細ページ: 動画/地図リンクボタン【ゴースト】（背景:白） */
+.detail-linkBtn--ghost{
+  background:#fff;
+}
+/* 詳細ページ: 直近の違反疑いシーン注記（文字色:指定 / 配置:flex / 外側余白 / 間隔 / 文字サイズ） */
+.detail-note{
+  margin-top:1mm;
+  font-size:10px;
+  color:#767676;
+  display:flex;
+  align-items:center;
+  gap:2mm;
+  letter-spacing:0.05em;
+  transform:translateY(-1mm); 
+}
+/* 詳細ページ: 直近の違反疑いシーン注記のアイコン（配置:block） */
+.detail-note__icon{
+  width:20px;
+  height:20px;
+  display:block;
+  transform: translateX(-1mm); 
+}
+/* 詳細ページ: 直近の違反疑いシーン注記のアイコンラップ（配置:flex） */
+.detail-note__iconWrap{
+  display:flex;
+  align-items:center;
+}
+/* 詳細ページ: 直近の違反疑いシーン注記のテキスト */
+.detail-note__text{
+  line-height:1.4;
+  transform:translateX(-2.5mm); 
+}
+/* 詳細ページ: ドライバーメモ（背景:白 / 配置:flex / 内側余白 / 外側余白 / 間隔） */
+.detail-memo{
+  margin-top:1.4mm;
+  background:#fff;
+  border-radius:6px;
+  padding:2.4mm 3mm;
+  box-shadow:0 1px 4px rgba(16,31,63,0.05);
+  display:flex;
+  flex-direction:column;
+  gap:1mm;
+}
+/* 詳細ページ: ドライバーメモのタイトル（文字色:指定 / 文字サイズ） */
+.detail-memo__title{
+  font-weight:800;
+  color:#1b2b47;
+  font-size:9pt;
+}
+/* 詳細ページ: ドライバーメモの説明（文字色:濃色 / 外側余白 / 文字サイズ） */
+.detail-memo__desc{
+  margin:0;
+  font-size:7pt;
+  color:#4a5670;
+}
+/* 詳細ページ: ドライバーメモの枠（背景:指定 / 外側余白 / 枠線） */
+.detail-memo__box{
+  margin-top:1mm;
+  min-height:32mm;
+  border:1px solid #d9e0f0;
+  border-radius:4px;
+  background:#fafdff;
+}
+/* 詳細ページ: ドライバーメモのアドバイザー（文字色:指定 / 配置:flex / 内側余白 / 外側余白 / 間隔 / 文字サイズ） */
+.detail-memo__advisor{
+  margin-top:3mm;
+  padding-bottom:1mm;
+  font-size:12px;
+  color:#1b2b47;
+  display:flex;
+  align-items:flex-end;
+  gap:4mm;
+  justify-content:flex-start;
+}
+/* 詳細ページ: ドライバーメモの行（配置:inline-block / 枠線） */
+.detail-memo__line{
+  flex:0 0 42mm;
+  width:42mm;
+  border-bottom:1px solid #8d97ae;
+  display:inline-block;
+  height:0;
+  transform: translateY(2mm);
 }
